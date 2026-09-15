@@ -1,10 +1,8 @@
 from pyexpat.errors import messages
-
 from django.shortcuts import redirect, render 
 from .models import Room,Message
 from django.http import HttpResponse,JsonResponse
 
-# Create your views here
 def home(request):
     return render(request, 'home.html')
 
