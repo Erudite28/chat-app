@@ -70,7 +70,7 @@ body {
 <script>
 $(document).ready(function(){
 
-setInterval(function(){
+setInterval(function(){ //This means that this code is to be run every second
     $.ajax({
         type: 'GET',
         url : "/getMessages/{{room}}/",
@@ -84,7 +84,7 @@ setInterval(function(){
             }
         },
         error: function(response){
-          console.log('Error fetching messages:', response);  
+         // alert('An error occured')
         }
     });
 },1000);
@@ -126,7 +126,7 @@ setInterval(function(){
     }
     </style>
 
-    <form id="post-form" method="POST">
+    <form id="post-form">
         {% csrf_token %}
         <input type="hidden" name="username" id="username" value="{{username}}"/>
         <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
@@ -140,7 +140,7 @@ setInterval(function(){
 
 <script type="text/javascript">
   $(document).on('submit','#post-form',function(e){
-    e.preventDefault();
+    e.preventDefault(); //This is to prevent the page from reloading or redirecting to another page
 
     $.ajax({
       type:'POST',
@@ -152,7 +152,7 @@ setInterval(function(){
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
-         //alert(data)
+       // alert(data) //shows the message sent in views.py
       }
     });
     document.getElementById('message').value = ''

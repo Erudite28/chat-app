@@ -1,12 +1,21 @@
-from django.shortcuts import redirect, render
+from pyexpat.errors import messages
+
+from django.shortcuts import redirect, render 
 from .models import Room,Message
+from django.http import HttpResponse,JsonResponse
 
 # Create your views here
 def home(request):
     return render(request, 'home.html')
 
 def room(request, room):
-    return render(request, 'room.html', {'room': room})
+    username = request.GET.get('username')
+    room_details = Room.objects.get(name=room)
+    return render(request, 'room.html', {
+        'username' : username,
+        'room': room,
+        'room_details' : room_details
+    })
 
 def checkview(request):
     if request.method == 'POST':
@@ -23,3 +32,18 @@ def checkview(request):
             #return redirect(f'/room/?username={username}&room={room}') 
     else:
         return render(request, 'room.html')
+
+def send(request):
+    message = request.POST['message']
+    username = request.POST['username']
+    room_id = request.POST['room_id']
+
+    new_message = Message.objects.create(value=message, user=username, room=room_id)
+    new_message.save()
+    return HttpResponse('Message sent successfully!')
+
+def getMessages(request, room):
+    room_details = Room.objects.get(name=room)
+
+    messages = Message.objects.filter(room=room_details.id)
+    return JsonResponse({'messages':list(messages.values())})
