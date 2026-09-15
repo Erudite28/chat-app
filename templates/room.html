@@ -84,7 +84,7 @@ setInterval(function(){
             }
         },
         error: function(response){
-            alert('An error occured')
+          console.log('Error fetching messages:', response);  
         }
     });
 },1000);
@@ -126,7 +126,7 @@ setInterval(function(){
     }
     </style>
 
-    <form id="post-form">
+    <form id="post-form" method="POST">
         {% csrf_token %}
         <input type="hidden" name="username" id="username" value="{{username}}"/>
         <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
